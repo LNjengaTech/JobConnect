@@ -83,6 +83,21 @@ The platform is built by youth, for youth. It is **not a job board**. It is a co
 | Icons          | Lucide React                        | Matches shadcn/ui, tree-shakeable              |
 | Fonts          | Oxanium (headings) + Outfit (body)  | Defined design identity                        |
 
+#### These are my prefered design styles, customized in ui.shadcn.com:
+
+| Setting              | Value          |
+|----------------------|----------------|
+| Style                | nova           |
+| Base color           | neutral        |
+| Theme                | indigo         |
+| Chart color          | indigo         |
+| Heading font         | oxanium        |
+| Body font            | outfit         |
+| Icon library         | lucide         |
+| Radius               | default (0.5rem) |
+| Menu style           | default/solid  |
+| Menu accent          | subtle         |
+
 ### 5. Architecture decisions the agent MUST follow
 
 #### 5.1 Monorepo structure
