@@ -1,0 +1,798 @@
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* --- DARK THEME DEFINITIONS --- */
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-tertiary: #64748B;
+  --color-background-primary: #18181B;   /* Sidebar & Cards */
+  --color-background-secondary: #27272A; /* Inputs & Metrics */
+  --color-background-tertiary: #09090B;  /* App Backdrop */
+  --color-border-secondary: #3F3F46;
+  --color-border-tertiary: #27272A;
+
+  /* Indigo Accents (Tweaked for Dark Mode) */
+  --indigo: #6366F1;
+  --indigo-hover: #4F46E5;
+  --indigo-light: rgba(99, 102, 241, 0.15);
+  --indigo-border: #4F46E5;
+  --indigo-text: #C7D2FE;
+
+  /* Mappings */
+  --fg: var(--color-text-primary);
+  --fg2: var(--color-text-secondary);
+  --fg3: var(--color-text-tertiary);
+  --bg: var(--color-background-primary);
+  --bg2: var(--color-background-secondary);
+  --bg3: var(--color-background-tertiary);
+  --bdr: var(--color-border-tertiary);
+  --bdr2: var(--color-border-secondary);
+  
+  --r: 8px;
+  --rl: 12px;
+  --font-head: 'Oxanium', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+}
+body{font-family:var(--font-body);color:var(--fg);font-size:14px;line-height:1.5}
+h1,h2,h3,.brand{font-family:var(--font-head)}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--bg3);
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg3);
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.sidebar{width:220px;background:var(--bg);border-right:0.5px solid var(--bdr);display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-header{padding:20px 18px 16px;border-bottom:0.5px solid var(--bdr)}
+.brand{font-size:18px;font-weight:600;color:var(--indigo);letter-spacing:-.3px}
+.brand span{color:var(--fg);font-weight:400}
+.brand-sub{font-size:11px;color:var(--fg3);margin-top:2px;font-family:var(--font-body)}
+
+.nav{padding:12px 10px;flex:1}
+.nav-section{font-size:10px;font-weight:600;color:var(--fg3);text-transform:uppercase;letter-spacing:.08em;padding:0 8px;margin:14px 0 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r);cursor:pointer;color:var(--fg2);font-size:13px;font-weight:500;transition:all .12s;margin-bottom:1px}
+.nav-item:hover{background:var(--bg2);color:var(--fg)}
+.nav-item.active{background:var(--indigo-light);color:var(--indigo-text)}
+.nav-item.active svg{stroke:var(--indigo)}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-badge{margin-left:auto;background:var(--indigo);color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:20px;font-family:var(--font-body)}
+
+.sidebar-footer{padding:14px;border-top:0.5px solid var(--bdr)}
+.user-row{display:flex;align-items:center;gap:10px}
+.avatar{border-radius:50%;background:var(--indigo-light);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--indigo-text);flex-shrink:0;font-family:var(--font-body)}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+.topbar{height:52px;border-bottom:0.5px solid var(--bdr);display:flex;align-items:center;padding:0 24px;gap:16px;background:var(--bg);flex-shrink:0}
+.topbar-title{font-family:var(--font-head);font-size:16px;font-weight:600;flex:1}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg2);border:0.5px solid var(--bdr);border-radius:var(--r);padding:6px 12px;width:220px}
+.search-box input{background:none;border:none;outline:none;font-size:13px;color:var(--fg);font-family:var(--font-body);width:100%}
+.search-box input::placeholder{color:var(--fg3)}
+.search-box svg{width:14px;height:14px;stroke:var(--fg3);flex-shrink:0;fill:none;stroke-width:1.8;stroke-linecap:round}
+
+.content{flex:1;overflow-y:auto;padding:24px}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
+
+.screen{display:none}
+.screen.active{display:block}
+
+.page-title{font-family:var(--font-head);font-size:22px;font-weight:600;margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--fg2);margin-bottom:24px}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.grid-main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px}
+
+.card{background:var(--bg);border:0.5px solid var(--bdr);border-radius:var(--rl);padding:18px}
+.card+.card{margin-top:0}
+.card-title{font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--fg2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+
+.metric{background:var(--bg2);border-radius:var(--r);padding:16px}
+.metric-label{font-size:12px;color:var(--fg3);margin-bottom:6px;font-weight:500}
+.metric-value{font-family:var(--font-head);font-size:26px;font-weight:600}
+.metric-sub{font-size:12px;color:var(--fg2);margin-top:4px}
+.metric-up{color:#16a34a}
+.metric-ind{color:var(--indigo)}
+
+.pill{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--font-body)}
+.p-indigo{background:var(--indigo-light);color:var(--indigo-text)}
+.p-green{background:#dcfce7;color:#15803d}
+.p-amber{background:#fef3c7;color:#92400e}
+.p-red{background:#fee2e2;color:#991b1b}
+.p-gray{background:var(--bg2);color:var(--fg2)}
+.p-solid{background:var(--indigo);color:#fff}
+
+.btn-primary{background:var(--indigo);color:#fff;border:none;border-radius:var(--r);padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-body);display:inline-flex;align-items:center;gap:6px;transition:background .12s}
+.btn-primary:hover{background:var(--indigo-hover)}
+.btn-outline{background:transparent;color:var(--fg);border:0.5px solid var(--bdr2);border-radius:var(--r);padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-body);display:inline-flex;align-items:center;gap:6px;transition:background .12s}
+.btn-outline:hover{background:var(--bg2)}
+
+.progress-track{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:3px;background:var(--indigo)}
+
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th{text-align:left;padding:8px 12px;color:var(--fg3);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;border-bottom:0.5px solid var(--bdr)}
+.table td{padding:11px 12px;border-bottom:0.5px solid var(--bdr);vertical-align:middle}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:var(--bg2)}
+
+.divider{height:0.5px;background:var(--bdr);margin:16px 0}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.link{color:var(--indigo);font-size:12px;cursor:pointer;font-weight:500}
+
+.ats-arc{position:relative;display:flex;flex-direction:column;align-items:center;padding:8px 0}
+
+.skill-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--bdr)}
+.skill-row:last-child{border-bottom:none}
+.skill-name{font-size:13px;font-weight:500;width:110px;flex-shrink:0}
+.skill-bar{flex:1;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.skill-fill{height:100%;border-radius:3px;background:var(--indigo)}
+
+.mentor-card{display:flex;gap:14px;padding:14px;border:0.5px solid var(--bdr);border-radius:var(--rl);background:var(--bg);cursor:pointer;transition:border-color .12s}
+.mentor-card:hover{border-color:var(--indigo-border)}
+.mentor-card+.mentor-card{margin-top:10px}
+
+.job-row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px;border:0.5px solid var(--bdr);border-radius:var(--rl);background:var(--bg);cursor:pointer;transition:border-color .12s;margin-bottom:10px}
+.job-row:hover{border-color:var(--indigo-border)}
+
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+
+.cv-section-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:0.5px solid var(--bdr);cursor:pointer}
+.cv-section-row:last-child{border-bottom:none}
+.cv-section-row:hover{opacity:.8}
+
+.radar-svg{display:block;margin:0 auto}
+</style>
+
+<div class="app">
+
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="brand">Karibu<span>.ke</span></div>
+    <div class="brand-sub">Career development portal</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-section">Main</div>
+    <div class="nav-item active" id="n-dashboard" onclick="go('dashboard')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" id="n-cv" onclick="go('cv')">
+      <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+      CV builder
+    </div>
+    <div class="nav-item" id="n-skills" onclick="go('skills')">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Skills tracker
+    </div>
+    <div class="nav-section">Community</div>
+    <div class="nav-item" id="n-mentors" onclick="go('mentors')">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Mentors
+    </div>
+    <div class="nav-item" id="n-jobs" onclick="go('jobs')">
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      Jobs
+      <span class="nav-badge">12</span>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <div class="avatar" style="width:34px;height:34px;font-size:12px">BO</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Brian Ochieng</div>
+        <div style="font-size:11px;color:var(--fg3)">IT student · Nairobi</div>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">Dashboard</div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input placeholder="Search jobs, skills, mentors…">
+    </div>
+    <button class="btn-outline" style="padding:6px 12px;font-size:12px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Alerts
+    </button>
+  </div>
+
+  <div class="content">
+
+  <!-- ═══════════════ DASHBOARD ═══════════════ -->
+  <div class="screen active" id="s-dashboard">
+    <div class="page-title">Good morning, Brian</div>
+    <div class="page-sub">Here's your career progress at a glance</div>
+
+    <div class="grid4" style="margin-bottom:20px">
+      <div class="metric">
+        <div class="metric-label">Profile strength</div>
+        <div class="metric-value metric-ind">72%</div>
+        <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
+        <div class="metric-sub">Add 2 skills → 80%</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Applications sent</div>
+        <div class="metric-value">4</div>
+        <div class="metric-sub metric-up">+2 this week</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Matched jobs</div>
+        <div class="metric-value">12</div>
+        <div class="metric-sub">New since yesterday</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Mentor sessions</div>
+        <div class="metric-value">1</div>
+        <div class="metric-sub">Booked · Thu 3pm</div>
+      </div>
+    </div>
+
+    <div class="grid-main">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="section-head">
+            <div class="card-title">Matched jobs</div>
+            <span class="link" onclick="go('jobs')">View all →</span>
+          </div>
+          <table class="table">
+            <thead><tr><th>Role</th><th>Company</th><th>Match</th><th>Salary</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div style="font-weight:500">Junior React Developer</div><div style="font-size:11px;color:var(--fg3)">Full-time · Nairobi</div></td>
+                <td>Safaricom</td>
+                <td><span class="pill p-green">94%</span></td>
+                <td style="font-size:12px">KSh 60-80k</td>
+                <td><button class="btn-primary" style="padding:5px 12px;font-size:12px">Apply</button></td>
+              </tr>
+              <tr>
+                <td><div style="font-weight:500">Frontend Engineer</div><div style="font-size:11px;color:var(--fg3)">Full-time · Remote</div></td>
+                <td>Andela</td>
+                <td><span class="pill p-indigo">88%</span></td>
+                <td style="font-size:12px">$1.2-1.8k/mo</td>
+                <td><button class="btn-primary" style="padding:5px 12px;font-size:12px">Apply</button></td>
+              </tr>
+              <tr>
+                <td><div style="font-weight:500">Software Intern</div><div style="font-size:11px;color:var(--fg3)">Internship · Nairobi</div></td>
+                <td>KCB Bank</td>
+                <td><span class="pill p-amber">76%</span></td>
+                <td style="font-size:12px">KSh 25k/mo</td>
+                <td><button class="btn-primary" style="padding:5px 12px;font-size:12px">Apply</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <div class="card-title">Learning progress</div>
+            <span class="link" onclick="go('skills')">View all →</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:500">Full-stack with Node.js</span><span style="font-size:12px;color:var(--fg3)">55%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
+              <div style="font-size:11px;color:var(--fg3);margin-top:3px">3 hours left · 8 lessons remaining</div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:500">TypeScript mastery</span><span style="font-size:12px;color:var(--fg3)">12%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:12%"></div></div>
+              <div style="font-size:11px;color:var(--fg3);margin-top:3px">Just started · 14 lessons remaining</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-title">CV health</div>
+          <div style="text-align:center;padding:8px 0 12px">
+            <div style="font-family:var(--font-head);font-size:42px;font-weight:600;color:var(--indigo)">78</div>
+            <div style="font-size:12px;color:var(--fg3);margin-top:2px">ATS score / 100</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px">
+              <span style="color:var(--fg2)">Keywords matched</span><span class="pill p-green">Good</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px">
+              <span style="color:var(--fg2)">Summary section</span><span class="pill p-red">Missing</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px">
+              <span style="color:var(--fg2)">Action verbs</span><span class="pill p-amber">Weak</span>
+            </div>
+          </div>
+          <button class="btn-primary" style="width:100%;margin-top:14px;justify-content:center" onclick="go('cv')">Fix CV →</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Upcoming session</div>
+          <div style="display:flex;gap:12px;align-items:center;padding:4px 0">
+            <div class="avatar" style="width:40px;height:40px;font-size:13px">AK</div>
+            <div>
+              <div style="font-size:13px;font-weight:500">Amina Kariuki</div>
+              <div style="font-size:12px;color:var(--fg2)">Senior Engineer · Safaricom</div>
+              <div style="font-size:11px;color:var(--indigo);margin-top:3px;font-weight:500">Thu 3 Apr · 3:00 PM</div>
+            </div>
+          </div>
+          <div style="background:var(--indigo-light);border-radius:var(--r);padding:10px;margin-top:12px;font-size:12px;color:var(--indigo-text)">
+            Topic: React best practices & Safaricom interview tips
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ CV BUILDER ═══════════════ -->
+  <div class="screen" id="s-cv">
+    <div class="page-title">CV builder</div>
+    <div class="page-sub">Build an ATS-optimised CV in minutes</div>
+
+    <div class="grid-main">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="section-head">
+            <div class="card-title">Sections</div>
+            <div style="display:flex;gap:8px">
+              <button class="btn-outline" style="font-size:12px;padding:6px 12px">Preview PDF</button>
+              <button class="btn-primary" style="font-size:12px;padding:6px 12px">Export</button>
+            </div>
+          </div>
+          <div class="cv-section-row" onclick="sendPrompt('Help me write strong work experience bullet points for my CV')">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:32px;height:32px;border-radius:var(--r);background:var(--indigo-light);display:flex;align-items:center;justify-content:center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div><div style="font-size:13px;font-weight:500">Personal info</div><div style="font-size:11px;color:var(--fg3)">Name, contact, LinkedIn</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><span class="pill p-green">Complete</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="cv-section-row" onclick="sendPrompt('Help me write strong work experience bullet points for my CV')">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:32px;height:32px;border-radius:var(--r);background:var(--indigo-light);display:flex;align-items:center;justify-content:center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+              </div>
+              <div><div style="font-size:13px;font-weight:500">Work experience</div><div style="font-size:11px;color:var(--fg3)">2 entries added</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><span class="pill p-green">Complete</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="cv-section-row">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:32px;height:32px;border-radius:var(--r);background:var(--indigo-light);display:flex;align-items:center;justify-content:center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.8" stroke-linecap="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              </div>
+              <div><div style="font-size:13px;font-weight:500">Education</div><div style="font-size:11px;color:var(--fg3)">BSc IT · University of Nairobi</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><span class="pill p-green">Complete</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="cv-section-row">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:32px;height:32px;border-radius:var(--r);background:#fef3c7;display:flex;align-items:center;justify-content:center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="1.8" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div><div style="font-size:13px;font-weight:500">Skills</div><div style="font-size:11px;color:var(--fg3)">4 of 6 recommended added</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><span class="pill p-amber">In progress</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="cv-section-row">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:32px;height:32px;border-radius:var(--r);background:#fee2e2;display:flex;align-items:center;justify-content:center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#991b1b" stroke-width="1.8" stroke-linecap="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+              </div>
+              <div><div style="font-size:13px;font-weight:500">Professional summary</div><div style="font-size:11px;color:var(--fg3)">Boosts ATS score by +10 pts</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><span class="pill p-red">Empty</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+
+        <div class="card" style="background:var(--indigo-light);border-color:var(--indigo-border)">
+          <div style="display:flex;gap:10px;align-items:start">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div>
+              <div style="font-size:12px;font-weight:600;color:var(--indigo-text);margin-bottom:3px">AI suggestion</div>
+              <div style="font-size:12px;color:var(--indigo-text)">Your bullet points use passive voice. Start with strong verbs — "Built", "Led", "Designed" — to improve ATS ranking by up to 15 points.</div>
+            </div>
+          </div>
+          <button class="btn-primary" style="margin-top:12px;font-size:12px" onclick="sendPrompt('Rewrite my CV bullet points using strong action verbs')">Fix with AI ↗</button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-title">ATS score</div>
+          <div style="text-align:center;padding:12px 0 8px">
+            <div style="font-family:var(--font-head);font-size:52px;font-weight:600;color:var(--indigo);line-height:1">78</div>
+            <div style="font-size:12px;color:var(--fg3);margin-top:4px">out of 100</div>
+          </div>
+          <div class="progress-track" style="height:8px;margin-bottom:16px"><div class="progress-fill" style="width:78%"></div></div>
+          <div style="font-size:12px;color:var(--fg2);text-align:center">Add a summary to reach <strong>88</strong></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">AI tools</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn-primary" style="width:100%;justify-content:center;font-size:12px" onclick="sendPrompt('Generate a professional summary for my CV based on my IT and React skills')">Generate summary ↗</button>
+            <button class="btn-outline" style="width:100%;justify-content:center;font-size:12px" onclick="sendPrompt('Tailor my CV for the Junior React Developer role at Safaricom')">Tailor to job ↗</button>
+            <button class="btn-outline" style="width:100%;justify-content:center;font-size:12px" onclick="sendPrompt('What keywords should I add to my CV for tech roles in Kenya?')">Keyword advice ↗</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Versions</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0;border-bottom:0.5px solid var(--bdr)">
+              <span style="font-weight:500">Safaricom tailored</span><span class="pill p-solid" style="font-size:10px">Latest</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0;border-bottom:0.5px solid var(--bdr)">
+              <span style="color:var(--fg2)">General tech</span><span style="color:var(--fg3)">Mar 20</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 0">
+              <span style="color:var(--fg2)">First draft</span><span style="color:var(--fg3)">Mar 10</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SKILLS ═══════════════ -->
+  <div class="screen" id="s-skills">
+    <div class="page-title">Skills tracker</div>
+    <div class="page-sub">Track your growth and close the gap with market demand</div>
+
+    <div class="grid-main">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="section-head">
+            <div class="card-title">Your skills</div>
+            <button class="btn-outline" style="font-size:12px;padding:5px 12px" onclick="sendPrompt('What new skills should I learn to get a frontend developer job in Kenya in 2025?')">Get recommendations ↗</button>
+          </div>
+          <div>
+            <div class="skill-row"><span class="skill-name">React.js</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div><span style="font-size:12px;color:var(--fg3);width:32px;text-align:right">80%</span><span class="pill p-green" style="margin-left:8px">Advanced</span></div>
+            <div class="skill-row"><span class="skill-name">Node.js</span><div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div><span style="font-size:12px;color:var(--fg3);width:32px;text-align:right">65%</span><span class="pill p-indigo" style="margin-left:8px">Mid</span></div>
+            <div class="skill-row"><span class="skill-name">PostgreSQL</span><div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div><span style="font-size:12px;color:var(--fg3);width:32px;text-align:right">50%</span><span class="pill p-indigo" style="margin-left:8px">Mid</span></div>
+            <div class="skill-row"><span class="skill-name">TypeScript</span><div class="skill-bar"><div class="skill-fill" style="width:30%"></div></div><span style="font-size:12px;color:var(--fg3);width:32px;text-align:right">30%</span><span class="pill p-amber" style="margin-left:8px">Beginner</span></div>
+            <div class="skill-row"><span class="skill-name">Testing</span><div class="skill-bar"><div class="skill-fill" style="width:25%"></div></div><span style="font-size:12px;color:var(--fg3);width:32px;text-align:right">25%</span><span class="pill p-amber" style="margin-left:8px">Beginner</span></div>
+            <div class="skill-row"><span class="skill-name">DevOps / CI-CD</span><div class="skill-bar"><div class="skill-fill" style="width:12%"></div></div><span style="font-size:12px;color:var(--fg3);width:32px;text-align:right">12%</span><span class="pill p-red" style="margin-left:8px">New</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Recommended learning paths</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:14px;align-items:center;padding:10px;border:0.5px solid var(--indigo-border);border-radius:var(--r);background:var(--indigo-light)">
+              <div style="width:36px;height:36px;border-radius:var(--r);background:var(--indigo);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:500;color:var(--indigo-text)">TypeScript mastery</div>
+                <div style="font-size:11px;color:var(--indigo-text);opacity:.75">8 lessons · closes your biggest gap · 94% jobs require it</div>
+              </div>
+              <button class="btn-primary" style="font-size:12px;padding:6px 12px">Start</button>
+            </div>
+            <div style="display:flex;gap:14px;align-items:center;padding:10px;border:0.5px solid var(--bdr);border-radius:var(--r)">
+              <div style="width:36px;height:36px;border-radius:var(--r);background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--fg2)" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:500">CI/CD with GitHub Actions</div>
+                <div style="font-size:11px;color:var(--fg3)">6 lessons · growing fast in KE market</div>
+              </div>
+              <button class="btn-outline" style="font-size:12px;padding:6px 12px">Start</button>
+            </div>
+            <div style="display:flex;gap:14px;align-items:center;padding:10px;border:0.5px solid var(--bdr);border-radius:var(--r)">
+              <div style="width:36px;height:36px;border-radius:var(--r);background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--fg2)" stroke-width="1.8" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77"/></svg>
+              </div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:500">Testing with Jest & RTL</div>
+                <div style="font-size:11px;color:var(--fg3)">5 lessons · required for senior roles</div>
+              </div>
+              <button class="btn-outline" style="font-size:12px;padding:6px 12px">Start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-title">Skill radar</div>
+          <svg class="radar-svg" width="260" height="240" viewBox="0 0 260 240">
+            <polygon points="130,24 200,66 200,150 130,192 60,150 60,66" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+            <polygon points="130,44 183,75 183,141 130,172 77,141 77,75" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+            <polygon points="130,64 167,85 167,131 130,152 93,131 93,85" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+            <line x1="130" y1="24" x2="130" y2="192" stroke="#e2e8f0" stroke-width="0.5"/>
+            <line x1="60" y1="66" x2="200" y2="150" stroke="#e2e8f0" stroke-width="0.5"/>
+            <line x1="200" y1="66" x2="60" y2="150" stroke="#e2e8f0" stroke-width="0.5"/>
+            <polygon points="130,38 192,74 190,142 130,175 68,140 72,74" fill="#EEF2FF" fill-opacity="0.8" stroke="#4F46E5" stroke-width="1.5"/>
+            <polygon points="130,27 200,63 198,148 130,190 60,147 61,64" fill="none" stroke="#a5b4fc" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="130" y="16" text-anchor="middle" font-size="10" fill="var(--fg2)" font-family="Outfit,sans-serif">React</text>
+            <text x="212" y="70" font-size="10" fill="var(--fg2)" font-family="Outfit,sans-serif">Node</text>
+            <text x="212" y="154" font-size="10" fill="var(--fg2)" font-family="Outfit,sans-serif">SQL</text>
+            <text x="130" y="206" text-anchor="middle" font-size="10" fill="var(--fg2)" font-family="Outfit,sans-serif">DevOps</text>
+            <text x="44" y="154" text-anchor="end" font-size="10" fill="var(--fg2)" font-family="Outfit,sans-serif">Testing</text>
+            <text x="44" y="70" text-anchor="end" font-size="10" fill="var(--fg2)" font-family="Outfit,sans-serif">TypeScript</text>
+            <rect x="30" y="218" width="10" height="2" fill="#4F46E5"/>
+            <text x="44" y="222" font-size="9" fill="var(--fg3)" font-family="Outfit,sans-serif">Your skills</text>
+            <rect x="110" y="218" width="10" height="2" stroke="#a5b4fc" stroke-dasharray="3 2" fill="none"/>
+            <text x="124" y="222" font-size="9" fill="var(--fg3)" font-family="Outfit,sans-serif">Market demand</text>
+          </svg>
+          <div style="margin-top:12px;background:var(--indigo-light);border-radius:var(--r);padding:10px;font-size:12px;color:var(--indigo-text)">
+            TypeScript and DevOps are your largest gaps vs. current market demand for KE frontend roles.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ MENTORS ═══════════════ -->
+  <div class="screen" id="s-mentors">
+    <div class="page-title">Find a mentor</div>
+    <div class="page-sub">Short, practical guidance from real Kenyan industry professionals</div>
+
+    <div style="display:flex;gap:10px;margin-bottom:20px;align-items:center">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:var(--bg);border:0.5px solid var(--bdr2);border-radius:var(--r);padding:8px 14px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input placeholder="Search by skill, name, or company…" style="border:none;outline:none;background:none;font-size:13px;color:var(--fg);font-family:var(--font-body);width:100%">
+      </div>
+      <span class="pill p-indigo" style="padding:7px 14px;cursor:pointer">All</span>
+      <span class="pill p-gray" style="padding:7px 14px;cursor:pointer">Engineering</span>
+      <span class="pill p-gray" style="padding:7px 14px;cursor:pointer">Product</span>
+      <span class="pill p-gray" style="padding:7px 14px;cursor:pointer">Design</span>
+      <span class="pill p-gray" style="padding:7px 14px;cursor:pointer">Finance</span>
+    </div>
+
+    <div class="grid3">
+      <div class="mentor-card" style="flex-direction:column">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div class="avatar" style="width:44px;height:44px;font-size:14px;background:var(--indigo-light);color:var(--indigo-text)">AK</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:500">Amina Kariuki</div>
+            <div style="font-size:12px;color:var(--fg2)">Senior Engineer · Safaricom</div>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:2px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:11px;color:var(--fg3)">4.9 · 12 sessions</span>
+            </div>
+          </div>
+          <span class="pill p-green">Free</span>
+        </div>
+        <div class="tag-row" style="margin-bottom:12px"><span class="pill p-indigo">React</span><span class="pill p-indigo">System design</span><span class="pill p-gray">Career</span></div>
+        <div style="font-size:12px;color:var(--fg2);margin-bottom:12px">"I mentor students who want to break into tech at Kenya's top companies."</div>
+        <button class="btn-primary" style="width:100%;justify-content:center;font-size:12px" onclick="sendPrompt('How do I book a mentorship session with Amina?')">Book 30-min session ↗</button>
+      </div>
+
+      <div class="mentor-card" style="flex-direction:column">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div class="avatar" style="width:44px;height:44px;font-size:14px;background:#ede9fe;color:#4c1d95">JM</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:500">James Mutua</div>
+            <div style="font-size:12px;color:var(--fg2)">Product Manager · Andela</div>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:2px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:11px;color:var(--fg3)">4.7 · 8 sessions</span>
+            </div>
+          </div>
+          <span class="pill p-amber">KSh 500</span>
+        </div>
+        <div class="tag-row" style="margin-bottom:12px"><span class="pill p-indigo">Product strategy</span><span class="pill p-gray">Interviews</span></div>
+        <div style="font-size:12px;color:var(--fg2);margin-bottom:12px">"I help engineers transition into product roles and ace interviews at scale-ups."</div>
+        <button class="btn-primary" style="width:100%;justify-content:center;font-size:12px;background:#7c3aed">Book via M-Pesa ↗</button>
+      </div>
+
+      <div class="mentor-card" style="flex-direction:column">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div class="avatar" style="width:44px;height:44px;font-size:14px;background:#fef3c7;color:#78350f">FW</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:500">Faith Wambui</div>
+            <div style="font-size:12px;color:var(--fg2)">UX Designer · Cellulant</div>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:2px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:11px;color:var(--fg3)">5.0 · 6 sessions</span>
+            </div>
+          </div>
+          <span class="pill p-green">Free</span>
+        </div>
+        <div class="tag-row" style="margin-bottom:12px"><span class="pill p-indigo">Figma</span><span class="pill p-gray">Portfolio review</span></div>
+        <div style="font-size:12px;color:var(--fg2);margin-bottom:12px">"I review portfolios and help young designers land their first UX role."</div>
+        <button class="btn-primary" style="width:100%;justify-content:center;font-size:12px">Book 30-min session ↗</button>
+      </div>
+
+      <div class="mentor-card" style="flex-direction:column">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div class="avatar" style="width:44px;height:44px;font-size:14px;background:#dcfce7;color:#14532d">DO</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:500">David Otieno</div>
+            <div style="font-size:12px;color:var(--fg2)">Data Engineer · M-Kopa</div>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:2px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:11px;color:var(--fg3)">4.8 · 15 sessions</span>
+            </div>
+          </div>
+          <span class="pill p-amber">KSh 300</span>
+        </div>
+        <div class="tag-row" style="margin-bottom:12px"><span class="pill p-indigo">Python</span><span class="pill p-indigo">SQL</span><span class="pill p-gray">Data career</span></div>
+        <div style="font-size:12px;color:var(--fg2);margin-bottom:12px">"Specialises in helping students break into data engineering and analytics."</div>
+        <button class="btn-primary" style="width:100%;justify-content:center;font-size:12px">Book via M-Pesa ↗</button>
+      </div>
+
+      <div class="mentor-card" style="flex-direction:column">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div class="avatar" style="width:44px;height:44px;font-size:14px;background:#fce7f3;color:#831843">GN</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:500">Grace Njeri</div>
+            <div style="font-size:12px;color:var(--fg2)">Engineering Lead · Equity Bank</div>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:2px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:11px;color:var(--fg3)">4.9 · 20 sessions</span>
+            </div>
+          </div>
+          <span class="pill p-green">Free</span>
+        </div>
+        <div class="tag-row" style="margin-bottom:12px"><span class="pill p-indigo">Backend</span><span class="pill p-indigo">Java</span><span class="pill p-gray">Leadership</span></div>
+        <div style="font-size:12px;color:var(--fg2);margin-bottom:12px">"Passionate about growing the next generation of women in engineering."</div>
+        <button class="btn-primary" style="width:100%;justify-content:center;font-size:12px">Book 30-min session ↗</button>
+      </div>
+
+      <div style="border:1.5px dashed var(--bdr2);border-radius:var(--rl);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:10px;cursor:pointer" onclick="sendPrompt('How can I become a mentor on Karibu?')">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div style="font-size:13px;font-weight:500;text-align:center;color:var(--fg2)">Become a mentor</div>
+        <div style="font-size:11px;color:var(--fg3);text-align:center">Give back and help the next generation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ JOBS ═══════════════ -->
+  <div class="screen" id="s-jobs">
+    <div class="page-title">Jobs for you</div>
+    <div class="page-sub">Entry-level and graduate roles matched to your skills</div>
+
+    <div style="display:flex;gap:10px;margin-bottom:20px;align-items:center">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:var(--bg);border:0.5px solid var(--bdr2);border-radius:var(--r);padding:8px 14px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input placeholder="Role, skill, or company…" style="border:none;outline:none;background:none;font-size:13px;color:var(--fg);font-family:var(--font-body);width:100%">
+      </div>
+      <span class="pill p-indigo" style="padding:7px 14px;cursor:pointer">All</span>
+      <span class="pill p-gray" style="padding:7px 14px;cursor:pointer">Remote</span>
+      <span class="pill p-gray" style="padding:7px 14px;cursor:pointer">Nairobi</span>
+      <span class="pill p-gray" style="padding:7px 14px;cursor:pointer">Entry-level</span>
+      <span class="pill p-gray" style="padding:7px 14px;cursor:pointer">Internship</span>
+    </div>
+
+    <div class="grid-main">
+      <div>
+        <div class="job-row" style="border:2px solid var(--indigo-border);background:var(--indigo-light)">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <div style="font-size:15px;font-weight:500;color:var(--indigo-text)">Junior React Developer</div>
+              <span class="pill p-solid">94% match</span>
+            </div>
+            <div style="font-size:12px;color:var(--indigo-text);opacity:.75;margin-bottom:8px">Safaricom · Nairobi · Full-time · KSh 60,000-80,000 / mo</div>
+            <div class="tag-row"><span class="pill p-indigo">React</span><span class="pill p-indigo">Node.js</span><span class="pill p-indigo">REST APIs</span></div>
+            <div style="font-size:12px;color:var(--indigo-text);opacity:.75;margin-top:8px">Build and maintain web products used by 40M+ subscribers across East Africa.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;justify-content:space-between">
+            <span style="font-size:11px;color:var(--indigo-text);opacity:.6">Posted 2d ago</span>
+            <button class="btn-primary" style="font-size:12px;white-space:nowrap" onclick="sendPrompt('How does one-tap apply work for the Safaricom Junior React role?')">One-tap apply ↗</button>
+          </div>
+        </div>
+
+        <div class="job-row">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <div style="font-size:15px;font-weight:500">Frontend Engineer</div>
+              <span class="pill p-indigo">88% match</span>
+            </div>
+            <div style="font-size:12px;color:var(--fg2);margin-bottom:8px">Andela · Remote · Full-time · $1,200-1,800 / mo</div>
+            <div class="tag-row"><span class="pill p-indigo">Vue.js</span><span class="pill p-indigo">TypeScript</span><span class="pill p-gray">GraphQL</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;justify-content:space-between">
+            <span style="font-size:11px;color:var(--fg3)">Posted 5d ago</span>
+            <button class="btn-primary" style="font-size:12px">Apply ↗</button>
+          </div>
+        </div>
+
+        <div class="job-row">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <div style="font-size:15px;font-weight:500">Software Intern</div>
+              <span class="pill p-amber">76% match</span>
+            </div>
+            <div style="font-size:12px;color:var(--fg2);margin-bottom:8px">KCB Bank · Nairobi · Internship · KSh 25,000 / mo</div>
+            <div class="tag-row"><span class="pill p-indigo">Python</span><span class="pill p-indigo">SQL</span><span class="pill p-gray">Django</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;justify-content:space-between">
+            <span style="font-size:11px;color:var(--fg3)">Posted 1d ago</span>
+            <button class="btn-primary" style="font-size:12px">Apply ↗</button>
+          </div>
+        </div>
+
+        <div class="job-row">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <div style="font-size:15px;font-weight:500">Mobile Developer (React Native)</div>
+              <span class="pill p-gray">71% match</span>
+            </div>
+            <div style="font-size:12px;color:var(--fg2);margin-bottom:8px">M-Kopa · Nairobi · Full-time · KSh 70,000-90,000 / mo</div>
+            <div class="tag-row"><span class="pill p-indigo">React Native</span><span class="pill p-indigo">JavaScript</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;justify-content:space-between">
+            <span style="font-size:11px;color:var(--fg3)">Posted 3d ago</span>
+            <button class="btn-primary" style="font-size:12px">Apply ↗</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-title">Application tracker</div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:8px 0;border-bottom:0.5px solid var(--bdr)">
+              <div><div style="font-weight:500">Junior React Dev</div><div style="font-size:11px;color:var(--fg3)">Safaricom</div></div>
+              <span class="pill p-indigo">Reviewing</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:8px 0;border-bottom:0.5px solid var(--bdr)">
+              <div><div style="font-weight:500">Frontend Eng</div><div style="font-size:11px;color:var(--fg3)">Andela</div></div>
+              <span class="pill p-green">Interview</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:8px 0;border-bottom:0.5px solid var(--bdr)">
+              <div><div style="font-weight:500">Software Intern</div><div style="font-size:11px;color:var(--fg3)">Equity Bank</div></div>
+              <span class="pill p-amber">Applied</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:8px 0">
+              <div><div style="font-weight:500">Dev Intern</div><div style="font-size:11px;color:var(--fg3)">Twiga Foods</div></div>
+              <span class="pill p-red">Closed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Skill gap alert</div>
+          <div style="font-size:12px;color:var(--fg2);margin-bottom:10px">You're missing <strong>TypeScript</strong> — required by 8 of your top 12 matches.</div>
+          <button class="btn-outline" style="width:100%;justify-content:center;font-size:12px" onclick="go('skills')">Start TypeScript path →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+const screens=['dashboard','cv','skills','mentors','jobs'];
+const titles={dashboard:'Dashboard',cv:'CV builder',skills:'Skills tracker',mentors:'Find a mentor',jobs:'Jobs for you'};
+function go(name){
+  screens.forEach(s=>{
+    document.getElementById('s-'+s).classList.toggle('active',s===name);
+    document.getElementById('n-'+s).classList.toggle('active',s===name);
+  });
+  document.getElementById('topbar-title').textContent=titles[name];
+  document.querySelector('.content').scrollTop=0;
+}
+</script>
